@@ -225,7 +225,7 @@ void opcontrol() {
 				puncher.move(0);
 				break;
 			case 1:
-				puncher.move(127);
+				puncher.move(114);
 				break;
     }
 
