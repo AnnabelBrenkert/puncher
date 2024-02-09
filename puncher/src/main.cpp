@@ -149,9 +149,9 @@ void autonomous() {
  // ez::as::auton_selector.selected_auton_call(); // Calls selected auton from autonomous selector
 
 //drive to goal and score matchload //////////////////////////////////////////////////////////////////////////////////////////////
-puncher.move_voltage(127);
-  pros::c::delay(27000);
-puncher.move_voltage(0);
+puncher.move(127);
+  pros::c::delay(40000);
+puncher.move(0);
   pros::delay(50);
 
 chassis.pid_turn_set(-15, TURN_SPEED);
@@ -175,6 +175,7 @@ chassis.pid_turn_set(15, TURN_SPEED);
   chassis.pid_wait();
 chassis.pid_drive_set(72, DRIVE_SPEED, true);
   chassis.pid_wait(); 
+
 
 }
 

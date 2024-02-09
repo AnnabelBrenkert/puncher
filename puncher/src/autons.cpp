@@ -325,22 +325,38 @@ chassis.pid_drive_set(-110, DRIVE_SPEED, true);
 // Swing Example
 ///
 void swing_example() {
-  // The first parameter is ez::LEFT_SWING or ez::RIGHT_SWING
-  // The second parameter is target degrees
-  // The third parameter is speed of the moving side of the drive
-  // The fourth parameter is the speed of the still side of the drive, this allows for wider arcs
+//score matchload 
+chassis.pid_drive_set(-14, DRIVE_SPEED, true);
+ chassis.pid_wait();
+chassis.pid_turn_set(-45, TURN_SPEED);
+ chassis.pid_wait();
+chassis.pid_drive_set(-85, DRIVE_SPEED, true);
+ chassis.pid_wait();
+chassis.pid_turn_set(0, TURN_SPEED);
+ chassis.pid_wait();
+//chassis.pid_drive_set(15, DRIVE_SPEED, false);
+ //chassis.pid_wait();
+//chassis.pid_drive_set(-25, DRIVE_SPEED, false);
+ //chassis.pid_wait();
+chassis.pid_drive_set(15, DRIVE_SPEED, true);
+ chassis.pid_wait();
+chassis.pid_turn_set(165, TURN_SPEED);
+ chassis.pid_wait();
+chassis.pid_drive_set(-35, DRIVE_SPEED, true);
+chassis.pid_wait();
+Vwings.set_value(true);
+chassis.pid_drive_set(-30, DRIVE_SPEED, true);
+ chassis.pid_wait();
+//chassis.pid_turn_set(95, TURN_SPEED);
+ //chassis.pid_wait();
+//chassis.pid_drive_set(-15, DRIVE_SPEED, true);
+ //chassis.pid_wait();
+ Vwings.set_value(false);
+chassis.pid_turn_set(90, TURN_SPEED);
+ chassis.pid_wait();
+chassis.pid_drive_set(-109, DRIVE_SPEED, true);
+ chassis.pid_wait();
 
-  chassis.pid_swing_set(ez::LEFT_SWING, 45_deg, SWING_SPEED, 45);
-  chassis.pid_wait();
-
-  chassis.pid_swing_set(ez::RIGHT_SWING, 0_deg, SWING_SPEED, 45);
-  chassis.pid_wait();
-
-  chassis.pid_swing_set(ez::RIGHT_SWING, 45_deg, SWING_SPEED, 45);
-  chassis.pid_wait();
-
-  chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, 45);
-  chassis.pid_wait();
 }
 
 ///
