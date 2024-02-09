@@ -72,7 +72,7 @@ void initialize() {
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
   chassis.opcontrol_drive_activebrake_set(0); // Sets the active brake kP. We recommend 0.1.
-  chassis.opcontrol_curve_default_set(0, 0); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
+  chassis.opcontrol_curve_default_set(7.25, 7.25); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -156,9 +156,9 @@ chassis.pid_drive_set(-85, DRIVE_SPEED, true);
  chassis.pid_wait();
 chassis.pid_turn_set(0, TURN_SPEED);
  chassis.pid_wait();
-chassis.pid_drive_set(15, DRIVE_SPEED, false);
+chassis.pid_drive_set(10, DRIVE_SPEED, false);
  chassis.pid_wait();
-chassis.pid_drive_set(-25, DRIVE_SPEED, false);
+chassis.pid_drive_set(-15, DRIVE_SPEED, false);
  chassis.pid_wait();
 chassis.pid_drive_set(15, DRIVE_SPEED, true);
  chassis.pid_wait();
@@ -225,7 +225,7 @@ void opcontrol() {
 				puncher.move(0);
 				break;
 			case 1:
-				puncher.move(106);
+				puncher.move(127);
 				break;
     }
 
