@@ -357,7 +357,7 @@ chassis.pid_drive_set(-30, DRIVE_SPEED, true);
  Vwings.set_value(false);
 chassis.pid_turn_set(90, TURN_SPEED);
  chassis.pid_wait();
-chassis.pid_drive_set(-109, DRIVE_SPEED, true);
+chassis.pid_drive_set(-118, DRIVE_SPEED, true);
  chassis.pid_wait();
 
 }
