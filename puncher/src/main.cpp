@@ -148,37 +148,78 @@ void autonomous() {
 
  // ez::as::auton_selector.selected_auton_call(); // Calls selected auton from autonomous selector
 
-//score matchload 
-chassis.pid_drive_set(-14, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(-45, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-85, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(0, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(15, DRIVE_SPEED, false);
- chassis.pid_wait();
-chassis.pid_drive_set(-25, DRIVE_SPEED, false);
- chassis.pid_wait();
-chassis.pid_drive_set(15, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(165, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-35, DRIVE_SPEED, true);
-chassis.pid_wait();
-Vwings.set_value(true);
+//push blue tri to corner
+Hwings.set_value(true); 
+ pros::delay(50);
+Hwings.set_value(false); 
+
+//go and intake mid tri 
+ chassis.pid_drive_set(170, DRIVE_SPEED, true);
+intake.move_velocity(500);
+  pros::delay(1500);
+intake.move_velocity(0);
+
+//push tris in  
+ chassis.pid_turn_set(130, TURN_SPEED);
+  chassis.pid_wait();
+Hwings.set_value(true);
+intake.move_velocity(-500);
+  pros::delay(250);
+intake.move_velocity(0);
+chassis.pid_drive_set(80, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
+
 chassis.pid_drive_set(-30, DRIVE_SPEED, true);
  chassis.pid_wait();
-chassis.pid_turn_set(95, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-15, DRIVE_SPEED, true);
- chassis.pid_wait();
- Vwings.set_value(false);
-chassis.pid_turn_set(90, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-100, DRIVE_SPEED, true);
- chassis.pid_wait();
+
+//go and get last mid tri 
+ chassis.pid_turn_set(275, TURN_SPEED);
+ chassis.pid_wait(); 
+ 
+ chassis.pid_drive_set(60, DRIVE_SPEED, true);
+intake.move_velocity(500);
+  pros::delay(700);
+intake.move_velocity(00);
+
+//drop it off 
+chassis.pid_turn_set(150, TURN_SPEED);
+chassis.pid_wait(); 
+ chassis.pid_drive_set(50, DRIVE_SPEED, true);
+intake.move_velocity(-500);
+  pros::delay(500);
+intake.move_velocity(0);
+chassis.pid_wait();
+
+//go and get hang tri 
+chassis.pid_turn_set(190, TURN_SPEED);
+  chassis.pid_wait();
+ chassis.pid_drive_set(90, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
+
+/*
+chassis.pid_turn_set(300, TURN_SPEED);
+  chassis.pid_wait();
+chassis.pid_drive_set(72, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
+intake.move_velocity(500);
+  pros::delay(500);
+intake.move_velocity(0);
+*/
+
+//get matchload 
+ //chassis.pid_drive_set(-100, DRIVE_SPEED, true);
+chassis.pid_turn_set(275, TURN_SPEED);
+Hwings.set_value(true);
+chassis.pid_wait();
+
+//push all in 
+ chassis.pid_drive_set(-80, DRIVE_SPEED, true);
+  chassis.pid_wait();  
+chassis.pid_turn_set(200, TURN_SPEED);
+  chassis.pid_wait();
+Hwings.set_value(false);
+chassis.pid_drive_set(-50, DRIVE_SPEED, true);
+
 
 
 }
