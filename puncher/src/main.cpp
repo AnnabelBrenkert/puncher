@@ -147,6 +147,7 @@ void autonomous() {
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency
 
  // ez::as::auton_selector.selected_auton_call(); // Calls selected auton from autonomous selector
+
 //score matchload 
 chassis.pid_drive_set(-14, DRIVE_SPEED, true);
  chassis.pid_wait();
@@ -157,9 +158,9 @@ chassis.pid_drive_set(-85, DRIVE_SPEED, true);
 chassis.pid_turn_set(0, TURN_SPEED);
  chassis.pid_wait();
 //chassis.pid_drive_set(15, DRIVE_SPEED, false);
- chassis.pid_wait();
-chassis.pid_drive_set(-25, DRIVE_SPEED, false);
- chassis.pid_wait();
+ //chassis.pid_wait();
+//chassis.pid_drive_set(-25, DRIVE_SPEED, false);
+ //chassis.pid_wait();
 chassis.pid_drive_set(15, DRIVE_SPEED, true);
  chassis.pid_wait();
 chassis.pid_turn_set(165, TURN_SPEED);
