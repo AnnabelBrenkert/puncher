@@ -148,36 +148,30 @@ void autonomous() {
 
  // ez::as::auton_selector.selected_auton_call(); // Calls selected auton from autonomous selector
 
-chassis.pid_drive_set(-14, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(-45, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-85, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(0, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(10, DRIVE_SPEED, false);
- chassis.pid_wait();
-chassis.pid_drive_set(-15, DRIVE_SPEED, false);
- chassis.pid_wait();
-chassis.pid_drive_set(15, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(165, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-35, DRIVE_SPEED, true);
-chassis.pid_wait();
-Vwings.set_value(true);
-chassis.pid_drive_set(-30, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(95, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-15, DRIVE_SPEED, true);
- chassis.pid_wait();
- Vwings.set_value(false);
+puncher.move_voltage(127);
+  pros::c::delay(27000);
+puncher.move_voltage(0);
+  pros::delay(50);
+
+chassis.pid_turn_set(-15, TURN_SPEED);
+  chassis.pid_wait();
+chassis.pid_drive_set(200, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
+chassis.pid_turn_set(15, TURN_SPEED);
+  chassis.pid_wait();
+Hwings.set_value(true);
+chassis.pid_drive_set(200, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
+chassis.pid_drive_set(-72, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
 chassis.pid_turn_set(90, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-100, DRIVE_SPEED, true);
- chassis.pid_wait();
+  chassis.pid_wait();
+chassis.pid_drive_set(72, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
+chassis.pid_turn_set(15, TURN_SPEED);
+  chassis.pid_wait();
+chassis.pid_drive_set(72, DRIVE_SPEED, true);
+  chassis.pid_wait(); 
 
 }
 
