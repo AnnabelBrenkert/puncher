@@ -1,5 +1,6 @@
 #include "autons.hpp"
 #include "main.h"
+#include "pros/distance.hpp"
 
 /////
 // For installation, upgrading, documentations and tutorials, check out our website!
@@ -29,96 +30,71 @@ void default_constants() {
   chassis.slew_drive_constants_set(7_in, 80);
 }
 
-
-  pros::Motor puncher (1, pros::E_MOTOR_GEARSET_06);
-  pros::Motor intake (15, pros::E_MOTOR_GEARSET_36);
-
-  #define VWING_PORT 'B'
-  pros::ADIDigitalOut Vwings(VWING_PORT);
-  #define HWING_PORT 'A'
-  pros::ADIDigitalOut Hwings(HWING_PORT);
-
-  #define HANG_PORT 'C'
-  pros::ADIDigitalOut hang(HANG_PORT);
-
-  pros::Controller master (pros::E_CONTROLLER_MASTER);
+  
 
 ///
 // Drive Example
 ///
 void Elems_sixBall() {
-
 //push blue tri to corner
 Hwings.set_value(true); 
- pros::delay(50);
+ pros::delay(300);
 Hwings.set_value(false); 
 
 //go and intake mid tri 
  chassis.pid_drive_set(170, DRIVE_SPEED, true);
 intake.move_velocity(500);
-  pros::delay(1500);
-intake.move_velocity(0);
+  pros::delay(1600);
 
 //push tris in  
  chassis.pid_turn_set(130, TURN_SPEED);
-  chassis.pid_wait();
+  pros::delay(250);
 Hwings.set_value(true);
 intake.move_velocity(-500);
-  pros::delay(250);
+  pros::delay(200);
 intake.move_velocity(0);
 chassis.pid_drive_set(80, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
+  pros::delay(760);
 
+Hwings.set_value(false);/////////////////////////////////////////////////////////
 chassis.pid_drive_set(-30, DRIVE_SPEED, true);
- chassis.pid_wait();
+  pros::delay(500);
 
-//go and get last mid tri 
+//go and get last mid tri ////////////////////////////////////////////////
  chassis.pid_turn_set(275, TURN_SPEED);
- chassis.pid_wait(); 
+  pros::delay(500);
  
  chassis.pid_drive_set(60, DRIVE_SPEED, true);
 intake.move_velocity(500);
-  pros::delay(700);
-intake.move_velocity(00);
+  pros::delay(800);
 
 //drop it off 
 chassis.pid_turn_set(150, TURN_SPEED);
-chassis.pid_wait(); 
+  pros::delay(400);
+intake.move_velocity(0);
  chassis.pid_drive_set(50, DRIVE_SPEED, true);
-intake.move_velocity(-500);
-  pros::delay(500);
+intake.move_velocity(-400);
+  pros::delay(400);
 intake.move_velocity(0);
-chassis.pid_wait();
 
-//go and get hang tri 
+
 chassis.pid_turn_set(190, TURN_SPEED);
-  chassis.pid_wait();
- chassis.pid_drive_set(90, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
-
-/*
-chassis.pid_turn_set(300, TURN_SPEED);
-  chassis.pid_wait();
-chassis.pid_drive_set(72, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
-intake.move_velocity(500);
   pros::delay(500);
-intake.move_velocity(0);
-*/
+ chassis.pid_drive_set(93, DRIVE_SPEED, true);
+  pros::delay(450);
 
 //get matchload 
- //chassis.pid_drive_set(-100, DRIVE_SPEED, true);
-chassis.pid_turn_set(275, TURN_SPEED);
-Hwings.set_value(true);
-chassis.pid_wait();
+chassis.pid_turn_set(285, TURN_SPEED);
+Vwings.set_value(true);
+  pros::delay(500);
 
 //push all in 
- chassis.pid_drive_set(-80, DRIVE_SPEED, true);
-  chassis.pid_wait();  
-chassis.pid_turn_set(200, TURN_SPEED);
-  chassis.pid_wait();
-Hwings.set_value(false);
+ chassis.pid_drive_set(-50, DRIVE_SPEED, true);
+  pros::delay(700);
+chassis.pid_turn_set(230, TURN_SPEED);
+  pros::delay(700);
 chassis.pid_drive_set(-50, DRIVE_SPEED, true);
+  pros::delay(500);
 
 
 }
@@ -127,75 +103,170 @@ chassis.pid_drive_set(-50, DRIVE_SPEED, true);
 // Turn Example
 ///
 void quals_WinPoint() {
-//score matchload 
-chassis.pid_drive_set(-14, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(-45, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-85, DRIVE_SPEED, true);
- chassis.pid_wait();
-chassis.pid_turn_set(0, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(15, DRIVE_SPEED, false);
- chassis.pid_wait();
-chassis.pid_drive_set(-25, DRIVE_SPEED, false);
- chassis.pid_wait();
+  
 chassis.pid_drive_set(15, DRIVE_SPEED, true);
  chassis.pid_wait();
-chassis.pid_turn_set(165, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-35, DRIVE_SPEED, true);
-chassis.pid_wait();
 Vwings.set_value(true);
-chassis.pid_drive_set(-30, DRIVE_SPEED, true);
+chassis.pid_turn_set(-45, TURN_SPEED);
  chassis.pid_wait();
-chassis.pid_turn_set(95, TURN_SPEED);
- chassis.pid_wait();
-chassis.pid_drive_set(-15, DRIVE_SPEED, true);
+chassis.pid_drive_set(35, DRIVE_SPEED, true);
  chassis.pid_wait();
  Vwings.set_value(false);
-chassis.pid_turn_set(90, TURN_SPEED);
+chassis.pid_turn_set(-35, TURN_SPEED);
  chassis.pid_wait();
-chassis.pid_drive_set(-100, DRIVE_SPEED, true);
+chassis.pid_drive_set(-35, DRIVE_SPEED, true);
  chassis.pid_wait();
-
-
+Hwings.set_value(true);
+chassis.pid_drive_set(108, DRIVE_SPEED, true);
+intake.move_velocity(-500);
+  pros::delay(3000);
 }
 
 ///
 // Combining Turn + Drive
 ///
 void skills() {
- //drive to goal and score matchload //////////////////////////////////////////////////////////////////////////////////////////////
-//drive to goal and score matchload //////////////////////////////////////////////////////////////////////////////////////////////
-puncher.move(127);
-  pros::c::delay(40000);
-puncher.move(0);
+/*
+pros::Task task([](){
+  while(true)
+  {
+    while(slapperfiretoggle)
+    {
+      if(PuncherDis.get() < 250 ) //|| puncher.get_position() < 130)
+      {
+        puncher.move(127); 
+      }
+      else
+      {
+        pros::delay(100);
+        puncher.move(0);
+      }
+      pros::delay(10);
+    }
+    pros::delay(10);
+
+  } 
+}); */
+
+chassis.pid_drive_set(-14, DRIVE_SPEED, true);
+  pros::delay(700);
+chassis.pid_turn_set(-50, TURN_SPEED);
+  pros::delay(400);
+chassis.pid_drive_set(-70, DRIVE_SPEED, true);
+  pros::delay(1000);
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(250);
+chassis.pid_drive_set(-25, DRIVE_SPEED, false);
+  pros::delay(550);
+chassis.pid_drive_set(35, DRIVE_SPEED, false);
+  pros::delay(500);
+Vwings.set_value(true);
+chassis.pid_turn_set(-120, TURN_SPEED);
+  pros::delay(500);
+chassis.pid_drive_set(-15, DRIVE_SPEED, false);
+  pros::delay(250);
+
+//puncher.move(127);
+  pros::c::delay(27000);
+//puncher.move(0);
   pros::delay(50);
 
-chassis.pid_turn_set(-30, TURN_SPEED);
-  chassis.pid_wait();
-chassis.pid_drive_set(200, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
-chassis.pid_turn_set(30, TURN_SPEED);
-  chassis.pid_wait();
-chassis.pid_drive_set(-25, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
-chassis.pid_drive_set(100, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
+//make way to other side of match load bar///////////////////////
+Vwings.set_value(false);
+
+chassis.pid_turn_set(-50, TURN_SPEED);
+  pros::delay(750);
+chassis.pid_drive_set(62, DRIVE_SPEED, true);
+  pros::delay(750);
+chassis.pid_turn_set(-90, TURN_SPEED);
+  pros::delay(250);
+chassis.pid_drive_set(236, DRIVE_SPEED, true);
+  pros::delay(1750);
+
+//score on left side of goal 
+chassis.pid_turn_set(-120,TURN_SPEED);
+  pros::delay(250);
 Hwings.set_value(true);
-chassis.pid_drive_set(100, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
-chassis.pid_drive_set(-72, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
+chassis.pid_drive_set(55, DRIVE_SPEED, true);
+  pros::delay(500);
+Hwings.set_value(false);
+chassis.pid_drive_set(55, DRIVE_SPEED, true);
+  pros::delay(00);
+chassis.pid_turn_set(-180, DRIVE_SPEED);
+  pros::delay(450);
+chassis.pid_drive_set(50, DRIVE_SPEED, true);
+  pros::delay(750);
+chassis.pid_drive_set(-10, DRIVE_SPEED, true);
+  pros::delay(750);
+
+//score left centar of goal   
+chassis.pid_turn_set(-90, TURN_SPEED);
+  pros::delay(750);
+ 
+chassis.pid_drive_set(-102, DRIVE_SPEED, true);
+  pros::delay(950);
+Vwings.set_value(true);
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(650);
+chassis.pid_drive_set(-22, DRIVE_SPEED, true);
+  pros::delay(750);
+chassis.pid_turn_set(65, TURN_SPEED);
+  pros::delay(650);
+ chassis.pid_drive_set(-85, DRIVE_SPEED, true);
+  pros::delay(650);
+Vwings.set_value(false);
+chassis.pid_drive_set(72, DRIVE_SPEED, true);
+  pros::delay(1000);
+
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(450);
+chassis.pid_drive_set(-52, DRIVE_SPEED, true);
+  pros::delay(750);
+Vwings.set_value(true);
 chassis.pid_turn_set(90, TURN_SPEED);
-  chassis.pid_wait();
+  pros::delay(550);
+chassis.pid_drive_set(-92, DRIVE_SPEED, true);
+  pros::delay(750);
+
+Vwings.set_value(false);
+chassis.pid_drive_set(80, DRIVE_SPEED, true);
+  pros::delay(850);
+
+
+//score right centar of goal 
+
+chassis.pid_turn_set(180, TURN_SPEED);
+  pros::delay(500);
 chassis.pid_drive_set(72, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
-chassis.pid_turn_set(15, TURN_SPEED);
-  chassis.pid_wait();
-chassis.pid_drive_set(72, DRIVE_SPEED, true);
-  chassis.pid_wait(); 
+  pros::delay(750);
+
+chassis.pid_turn_set(110, DRIVE_SPEED, true);
+  pros::delay(550);
+Vwings.set_value(true);
+chassis.pid_drive_set(-102, DRIVE_SPEED, true);
+  pros::delay(1000);
+Vwings.set_value(false);
+chassis.pid_drive_set(15, DRIVE_SPEED, true);
+  pros::delay(500);
+
+//right 
+Vwings.set_value(true);
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(500);
+chassis.pid_drive_set(-102, DRIVE_SPEED, true);
+  pros::delay(850);
+
+chassis.pid_turn_set(125, TURN_SPEED);
+  pros::delay(450);
+chassis.pid_drive_set(-90, DRIVE_SPEED, true);
+  pros::delay(950);
+
+chassis.pid_turn_set(180, TURN_SPEED);
+  pros::delay(750);
+chassis.pid_drive_set(-50, DRIVE_SPEED, true);
+  pros::delay(750);
+chassis.pid_drive_set(50, DRIVE_SPEED, true);
+  pros::delay(500);
 
 }
 
@@ -366,19 +437,12 @@ chassis.pid_drive_set(-118, DRIVE_SPEED, true);
 // Auto that tests everything
 ///
 void combining_movements() {
-  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+ 
+ chassis.pid_drive_set(170, DRIVE_SPEED, true);
   chassis.pid_wait();
-
-  chassis.pid_turn_set(45_deg, TURN_SPEED);
+chassis.pid_drive_set(-15, DRIVE_SPEED, true);
   chassis.pid_wait();
-
-  chassis.pid_swing_set(ez::RIGHT_SWING, -45_deg, SWING_SPEED, 45);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+chassis.pid_drive_set(25, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
 

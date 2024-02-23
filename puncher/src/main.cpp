@@ -2,6 +2,9 @@
 #include "autons.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
+#include "pros/rtos.hpp"
+#include <iostream>
+#include <ostream>
 
 /////
 // For installation, upgrading, documentations and tutorials, check out our website!
@@ -16,6 +19,8 @@ int hangState = 0;
 
     /*puncher variables*/
 bool lastKnownButtonUpState; 
+bool slapperfiretoggle = true ;
+
 int puncherState = 0;
 
     /*Vwing Variables*/
@@ -23,6 +28,21 @@ bool lastKnownButtonR2State;
 int VwingState = 0;
 
 /*End of Variable Definitions*/
+
+  pros::Distance PuncherDis(5); 
+
+  pros::Motor puncher (1, pros::E_MOTOR_GEARSET_06);
+  pros::Motor intake (15, pros::E_MOTOR_GEARSET_36);
+
+  #define VWING_PORT 'B'
+  pros::ADIDigitalOut Vwings(VWING_PORT);
+  #define HWING_PORT 'A'
+  pros::ADIDigitalOut Hwings(HWING_PORT);
+
+  #define HANG_PORT 'C'
+  pros::ADIDigitalOut hang(HANG_PORT);
+
+  pros::Controller master (pros::E_CONTROLLER_MASTER);
 
 // Chassis constructor
 ez::Drive chassis (
@@ -147,13 +167,148 @@ void autonomous() {
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency
 
  // ez::as::auton_selector.selected_auton_call(); // Calls selected auton from autonomous selector
+ 
 
- chassis.pid_drive_set(170, DRIVE_SPEED, true);
-  chassis.pid_wait();
-chassis.pid_drive_set(-15, DRIVE_SPEED, true);
-  chassis.pid_wait();
-chassis.pid_drive_set(25, DRIVE_SPEED, true);
-  chassis.pid_wait();
+pros::Task task([](){
+  while(true)
+  {
+    while(slapperfiretoggle)
+    {
+      if(PuncherDis.get() < 250 ) //|| puncher.get_position() < 130)
+      {
+        puncher.move(127); 
+      }
+      else
+      {
+        pros::delay(100);
+        puncher.move(0);
+      }
+      pros::delay(10);
+    }
+    pros::delay(10);
+
+  } 
+}); 
+
+chassis.pid_drive_set(-14, DRIVE_SPEED, true);
+  pros::delay(700);
+chassis.pid_turn_set(-60, TURN_SPEED);
+  pros::delay(400);
+chassis.pid_drive_set(-80, DRIVE_SPEED, true);
+  pros::delay(1000);
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(250);
+chassis.pid_drive_set(-35, DRIVE_SPEED, false);
+  pros::delay(550);
+chassis.pid_drive_set(35, DRIVE_SPEED, false);
+  pros::delay(500);
+Vwings.set_value(true);
+chassis.pid_turn_set(-120, TURN_SPEED);
+  pros::delay(500);
+chassis.pid_drive_set(-25, DRIVE_SPEED, false);
+  pros::delay(250);
+
+//puncher.move(127);
+  pros::c::delay(27000);
+//puncher.move(0);
+  pros::delay(50);
+
+//make way to other side of match load bar///////////////////////
+Vwings.set_value(false);
+chassis.pid_turn_set(-50, TURN_SPEED);
+  pros::delay(750);
+chassis.pid_drive_set(62, DRIVE_SPEED, true);
+  pros::delay(750);
+chassis.pid_turn_set(-90, TURN_SPEED);
+  pros::delay(250); 
+chassis.pid_drive_set(226, DRIVE_SPEED, true);
+  pros::delay(1750);
+
+//score on left side of goal 
+/*
+chassis.pid_turn_set(-120,TURN_SPEED);
+  pros::delay(250);
+Hwings.set_value(true);
+chassis.pid_drive_set(55, DRIVE_SPEED, true);
+  pros::delay(500);
+Hwings.set_value(false);
+chassis.pid_drive_set(55, DRIVE_SPEED, true);
+  pros::delay(00);
+  */
+chassis.pid_turn_set(-180, DRIVE_SPEED);
+  pros::delay(450);
+chassis.pid_drive_set(60, DRIVE_SPEED, true);
+  pros::delay(750);
+//chassis.pid_drive_set(-10, DRIVE_SPEED, true);
+  //pros::delay(750);
+
+//score left centar of goal   
+chassis.pid_turn_set(-90, TURN_SPEED);
+  pros::delay(750);
+ 
+chassis.pid_drive_set(-89, DRIVE_SPEED, true);
+  pros::delay(950);
+Vwings.set_value(true);
+//chassis.pid_turn_set(0, TURN_SPEED);
+  //pros::delay(650);
+//chassis.pid_drive_set(-22, DRIVE_SPEED, true);
+  //pros::delay(750);
+chassis.pid_turn_set(65, TURN_SPEED);
+  pros::delay(650);
+ chassis.pid_drive_set(-85, DRIVE_SPEED, true);
+  pros::delay(650);
+Vwings.set_value(false);
+chassis.pid_drive_set(72, DRIVE_SPEED, true);
+  pros::delay(1000);
+
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(450);
+chassis.pid_drive_set(-52, DRIVE_SPEED, true);
+  pros::delay(750);
+Vwings.set_value(true);
+chassis.pid_turn_set(90, TURN_SPEED);
+  pros::delay(550);
+chassis.pid_drive_set(-92, DRIVE_SPEED, true);
+  pros::delay(750);
+
+Vwings.set_value(false);
+chassis.pid_drive_set(80, DRIVE_SPEED, true);
+  pros::delay(850);
+
+
+//score right centar of goal 
+
+chassis.pid_turn_set(180, TURN_SPEED);
+  pros::delay(500);
+chassis.pid_drive_set(82, DRIVE_SPEED, true);
+  pros::delay(750);
+
+chassis.pid_turn_set(110, DRIVE_SPEED, true);
+  pros::delay(550);
+Vwings.set_value(true);
+chassis.pid_drive_set(-102, DRIVE_SPEED, true);
+  pros::delay(1000);
+Vwings.set_value(false);
+chassis.pid_drive_set(15, DRIVE_SPEED, true);
+  pros::delay(500);
+
+//right 
+chassis.pid_turn_set(0, TURN_SPEED);
+  pros::delay(500);
+chassis.pid_drive_set(-112, DRIVE_SPEED, true);
+  pros::delay(850);
+
+chassis.pid_turn_set(125, TURN_SPEED);
+  pros::delay(450);
+chassis.pid_drive_set(-90, DRIVE_SPEED, true);
+  pros::delay(950);
+
+chassis.pid_turn_set(180, TURN_SPEED);
+  pros::delay(750);
+chassis.pid_drive_set(-50, DRIVE_SPEED, true);
+  pros::delay(750);
+chassis.pid_drive_set(50, DRIVE_SPEED, true);
+  pros::delay(500);
 
 }
 
@@ -177,11 +332,24 @@ void opcontrol() {
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
   
   while (true) {
+      if(PuncherDis.get() < 250 ) //|| puncher.get_position() < 130)
+      {
+        puncher.move(127); 
+      }
+      else
+      {
+        pros::delay(100);
+        puncher.move(0);
+      }
+      pros::delay(10);
     
+    
+std::cout << " distance: " << PuncherDis.get() << " motor position: " << puncher.get_position() << std::endl;
 
     chassis.opcontrol_tank(); 
 
   //puncher code
+  /*
   if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) != lastKnownButtonUpState)
 		{
 			lastKnownButtonUpState = master.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
@@ -204,7 +372,7 @@ void opcontrol() {
 				puncher.move(127);
 				break;
     }
-
+*/
   /* Intake/outtake Code*/
 		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
